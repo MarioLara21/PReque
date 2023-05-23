@@ -14,6 +14,9 @@
         android:theme="@style/Theme.Proyecto1"
         tools:targetApi="31">
         <activity
+            android:name=".menu_administradores"
+            android:exported="false" />
+        <activity
             android:name=".UsuarioInexistente"
             android:exported="false" />
         <activity
