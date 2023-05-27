@@ -7,24 +7,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class menu_usuarios extends AppCompatActivity {
-    Button buttonSC = (Button) findViewById(R.id.button_solicitar_cubiculo);
-    Button buttonCS = (Button) findViewById(R.id.button_cerrar_sesion_menu);
+public class Modificar_Tiempo extends AppCompatActivity {
+    Button buttonMT = (Button) findViewById(R.id.button_modificar_tiempo);
+    Button buttonVMT = (Button) findViewById(R.id.button_volver_MT);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_usuarios);
-        buttonSC.setOnClickListener(new View.OnClickListener(){
+        setContentView(R.layout.activity_modificar_tiempo);
+        buttonMT.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View v){
-                Intent i = new Intent(menu_usuarios.this,MainActivity.class);
+
+                Intent i = new Intent(Modificar_Tiempo.this,MainActivity.class);
                 startActivity(i);
             }
         });
-        buttonCS.setOnClickListener(new View.OnClickListener(){
+        buttonVMT.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(menu_usuarios.this,MainActivity.class);
+                Intent i = new Intent(Modificar_Tiempo.this,MainActivity.class);
                 startActivity(i);
             }
         });
