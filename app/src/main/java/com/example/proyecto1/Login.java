@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -39,9 +38,20 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(Login.this, menu_usuarios.class);
+                            String userUID= user.getUid();
+                            Intent i;
+
+                            if(userUID.equals("OTVTJvCApQfQptipOL5YCR8VKTk1")){
+                                i = new Intent(Login.this, agregarCubibulo.class);
+
+                            }
+                            else {
+                                i = new Intent(Login.this, menu_usuarios.class);
+                            }
                             startActivity(i);
+
 
                         } else {
                             Intent i = new Intent(Login.this, UsuarioInexistente.class);
