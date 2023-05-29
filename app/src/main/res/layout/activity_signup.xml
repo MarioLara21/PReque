@@ -24,8 +24,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="47dp"
         android:ems="10"
+        android:hint="Correo"
         android:inputType="textPersonName"
-        android:text="Correo"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -37,8 +37,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="28dp"
         android:ems="10"
+        android:hint="Password"
         android:inputType="textPersonName"
-        android:text="Contraseña "
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Correo_text" />
