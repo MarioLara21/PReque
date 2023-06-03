@@ -8,15 +8,23 @@ import android.view.View;
 import android.widget.Button;
 
 public class menu_administradores extends AppCompatActivity {
-    Button buttonGC = (Button) findViewById(R.id.button_gestion_cubiculos);
-    Button buttonGU = (Button) findViewById(R.id.button_gestion_usuarios);
-    Button buttonGTU = (Button) findViewById(R.id.button_gestion_tiempo_uso);
-    Button buttonGR = (Button) findViewById(R.id.button_gestion_reserva);
-    Button buttonCS = (Button) findViewById(R.id.button_cerrar_sesion);
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_administradores);
+
+        Button buttonGC = (Button) findViewById(R.id.button_gestion_cubiculos);
+        Button buttonGU = (Button) findViewById(R.id.button_gestion_usuarios);
+        Button buttonGTU = (Button) findViewById(R.id.button_gestion_tiempo_uso);
+        Button buttonGR = (Button) findViewById(R.id.button_gestion_reserva);
+        Button buttonCS = (Button) findViewById(R.id.button_cerrar_sesion);
+
         buttonGC.setOnClickListener(new View.OnClickListener(){
 
             @Override

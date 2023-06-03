@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 
 public class Reserva_Cubiculos extends AppCompatActivity {
-    Button buttonRC = (Button) findViewById(R.id.button_reserva_cubiculo);
-    Button buttonVRC = (Button) findViewById(R.id.button_volver_RC);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva_cubiculos);
+
+        Button buttonRC = (Button) findViewById(R.id.button_reserva_cubiculo);
+        Button buttonVRC = (Button) findViewById(R.id.button_volver_RC);
         buttonRC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

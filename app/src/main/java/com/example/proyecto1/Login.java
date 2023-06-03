@@ -44,9 +44,9 @@ public class Login extends AppCompatActivity {
                             Intent i;
 
                             if(userUID.equals("OTVTJvCApQfQptipOL5YCR8VKTk1")){
-                                i = new Intent(Login.this, agregarCubibulo.class);
-
+                                i = new Intent(Login.this, menu_administradores.class);
                             }
+
                             else {
                                 i = new Intent(Login.this, menu_usuarios.class);
                             }

@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.Button;
 
 public class Historial_Reservas extends AppCompatActivity {
-    Button buttonVHR = (Button) findViewById(R.id.button_volverHR);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historial_reservas);
+
+        Button buttonVHR = (Button) findViewById(R.id.button_volverHR);
         buttonVHR.setOnClickListener(new View.OnClickListener(){
 
             @Override

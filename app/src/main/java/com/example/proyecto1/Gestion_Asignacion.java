@@ -8,15 +8,17 @@ import android.view.View;
 import android.widget.Button;
 
 public class Gestion_Asignacion extends AppCompatActivity {
-    Button buttonER = (Button) findViewById(R.id.button_eliminar_reserva);
-    Button buttonMR = (Button) findViewById(R.id.button_modificar_reserva);
-    Button buttonECRG = (Button) findViewById(R.id.button_enviar_correo_general);
-    Button buttonECRR = (Button) findViewById(R.id.button_enviar_correo_reserva);
-    Button buttonV = (Button) findViewById(R.id.button_volver_GAC);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestion_asignacion);
+
+        Button buttonER = (Button) findViewById(R.id.button_eliminar_reserva);
+        Button buttonMR = (Button) findViewById(R.id.button_modificar_reserva);
+        Button buttonECRG = (Button) findViewById(R.id.button_enviar_correo_general);
+        Button buttonECRR = (Button) findViewById(R.id.button_enviar_correo_reserva);
+        Button buttonV = (Button) findViewById(R.id.button_volver_GAC);
         buttonECRG.setOnClickListener(new View.OnClickListener(){
 
             @Override
