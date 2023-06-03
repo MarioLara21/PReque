@@ -9,14 +9,16 @@ import android.widget.Button;
 
 public class Gestion_Cubiculos extends AppCompatActivity {
 
-    Button buttonAC = (Button) findViewById(R.id.button_agregar_cubiculo);
-    Button buttonEC = (Button) findViewById(R.id.button_eliminar_cubiculo);
-    Button buttonMC = (Button) findViewById(R.id.button_modificar_cubiculo);
-    Button buttonVGC = (Button) findViewById(R.id.button_volver_GC);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestion_cubiculos);
+
+        Button buttonAC = (Button) findViewById(R.id.button_agregar_cubiculo);
+        Button buttonEC = (Button) findViewById(R.id.button_eliminar_cubiculo);
+        Button buttonMC = (Button) findViewById(R.id.button_modificar_cubiculo);
+        Button buttonVGC = (Button) findViewById(R.id.button_volver_GC);
         buttonEC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

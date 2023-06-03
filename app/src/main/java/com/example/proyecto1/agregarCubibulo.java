@@ -31,6 +31,7 @@ public class agregarCubibulo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_cubibulo);
 
+
         Button buttonBack = (Button) findViewById(R.id.btn_Volver);
 
         Button buttonAddCubiculo = (Button) findViewById(R.id.btn_addCubiculo);
