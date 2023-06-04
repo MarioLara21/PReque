@@ -7,33 +7,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class Modificar_Tiempo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_modificar_tiempo);
 
-        Button buttonSU = (Button) findViewById(R.id.button_signup);
-        Button buttonLgn = (Button) findViewById(R.id.button_login);
-
-        buttonSU.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v){
-
-                Intent i = new Intent(MainActivity.this,signup.class);
-                startActivity(i);
-            }
-        });
-        buttonLgn.setOnClickListener(new View.OnClickListener(){
+        Button buttonMT = (Button) findViewById(R.id.button_modificar_tiempo);
+        Button buttonVMT = (Button) findViewById(R.id.button_volver_MT);
+        buttonMT.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v){
-                Intent i = new Intent(MainActivity.this,Login.class);
+
+                Intent i = new Intent(Modificar_Tiempo.this,MainActivity.class);
                 startActivity(i);
             }
         });
-
+        buttonVMT.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(Modificar_Tiempo.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

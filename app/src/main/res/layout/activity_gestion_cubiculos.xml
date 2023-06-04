@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Gestion_Cubiculos">
@@ -96,7 +95,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/button_agregar_cubiculo"
         android:layout_width="195dp"
         android:layout_height="48dp"
         android:layout_marginTop="13dp"
@@ -106,32 +105,34 @@
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/button_eliminar_cubiculo"
         android:layout_width="197dp"
         android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:text="Eliminar Cubículo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/button_agregar_cubiculo" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/button_modificar_cubiculo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Modificar Cubículo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9" />
+        app:layout_constraintTop_toBottomOf="@+id/button_eliminar_cubiculo" />
 
     <Button
-        android:id="@+id/button31"
-        android:layout_width="198dp"
-        android:layout_height="38dp"
+        android:id="@+id/button_volver_GC"
+        android:layout_width="203dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="107dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="106dp"
         android:text="Volver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button10" />
+        app:layout_constraintTop_toBottomOf="@+id/button_modificar_cubiculo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
