@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Gestion_Cubiculos">
+    tools:context=".Gestion_usuarios">
 
     <TextView
         android:id="@+id/textView7"
@@ -40,7 +40,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView30"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="número de cubículo"
@@ -57,7 +57,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView31"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="número de carné"
@@ -69,7 +69,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView32"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="nombre"
@@ -81,7 +81,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView33"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="primer apellido"
@@ -93,7 +93,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView34"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="segundo apellido"
@@ -105,7 +105,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/textView35"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="edad"
@@ -166,7 +166,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/button_revisar_historial"
         android:layout_width="195dp"
         android:layout_height="48dp"
         android:layout_marginTop="13dp"
@@ -176,7 +176,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/button_eliminar_usuario"
         android:layout_width="197dp"
         android:layout_height="49dp"
         android:layout_marginTop="28dp"
@@ -184,15 +184,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/button_revisar_historial" />
 
     <Button
-        android:id="@+id/button31"
+        android:id="@+id/button_volver_usuarios"
         android:layout_width="198dp"
         android:layout_height="38dp"
         android:text="Volver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="677dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
