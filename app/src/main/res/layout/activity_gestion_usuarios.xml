@@ -46,27 +46,12 @@
                 android:text="número de cubículo"
                 android:textStyle="bold" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/textView31"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="número de carné"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView32"
@@ -74,11 +59,6 @@
                 android:layout_height="wrap_content"
                 android:text="nombre"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView33"
@@ -86,11 +66,6 @@
                 android:layout_height="wrap_content"
                 android:text="primer apellido"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView34"
@@ -98,11 +73,6 @@
                 android:layout_height="wrap_content"
                 android:text="segundo apellido"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView35"
@@ -110,12 +80,6 @@
                 android:layout_height="wrap_content"
                 android:text="edad"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView16"
@@ -126,35 +90,19 @@
                 android:textAlignment="center"
                 android:textStyle="bold" />
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="estado"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
 
             <TextView
                 android:id="@+id/textView28"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
-                android:text="coreo electronico"
+                android:text="correo electrónico"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="112dp">
 
             <TextView
                 android:id="@+id/textView29"
@@ -162,7 +110,9 @@
                 android:layout_height="wrap_content"
                 android:text="contraseña institucional"
                 android:textStyle="bold" />
+
         </TableRow>
+
     </TableLayout>
 
     <Button
@@ -194,5 +144,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_eliminar_usuario" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
