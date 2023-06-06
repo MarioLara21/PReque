@@ -39,7 +39,7 @@
             android:exported="false" />
         <activity
             android:name=".Gestion_Cubiculos"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".menu_administradores"
             android:exported="false" />

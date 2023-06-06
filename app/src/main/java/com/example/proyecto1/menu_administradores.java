@@ -57,7 +57,7 @@ public class menu_administradores extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(menu_administradores.this,MainActivity.class);
+                Intent i = new Intent(menu_administradores.this,Gestion_Asignacion.class);
                 startActivity(i);
             }
         });
