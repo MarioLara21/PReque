@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     if (!task.getResult().isEmpty()) {
                                         // El usuario existe y las credenciales son correctas
-                                        Intent usuarioIntent = new Intent(Login.this, menu_usuarios.class);
+                                        Intent usuarioIntent = new Intent(Login.this, RealizarReserva.class);
                                         startActivity(usuarioIntent);
                                     } else {
                                         // Credenciales incorrectas
