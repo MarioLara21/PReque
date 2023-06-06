@@ -77,8 +77,8 @@
 
     <Switch
         android:id="@+id/switchDisponibilidad"
-        android:layout_width="183dp"
-        android:layout_height="53dp"
+        android:layout_width="197dp"
+        android:layout_height="56dp"
         android:text="Disponible"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,8 +90,8 @@
 
     <Switch
         android:id="@+id/switchBraile"
-        android:layout_width="183dp"
-        android:layout_height="53dp"
+        android:layout_width="197dp"
+        android:layout_height="58dp"
         android:text="Braile"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,8 +103,8 @@
 
     <Switch
         android:id="@+id/switchAccesoEspecializado"
-        android:layout_width="200dp"
-        android:layout_height="54dp"
+        android:layout_width="193dp"
+        android:layout_height="56dp"
         android:text="Acceso Especializado"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

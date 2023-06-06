@@ -22,9 +22,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
-        android:id="@+id/tableLayout3"
-        android:layout_width="371dp"
-        android:layout_height="479dp"
+        android:id="@+id/tabla_Reserva_Cubiculo"
+        android:layout_width="306dp"
+        android:layout_height="328dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="29dp"
         android:layout_marginEnd="20dp"
@@ -34,46 +34,36 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView25"
-                android:layout_width="120dp"
+                android:id="@+id/texto_numero_cubiculo_TRC"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:text="Numero cubiculo"
                 android:textAlignment="center"
+                android:textSize="12dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView26"
-                android:layout_width="137dp"
+                android:id="@+id/texto_cantidad_persona_TRC"
+                android:layout_width="112dp"
                 android:layout_height="wrap_content"
                 android:text="Cantidad personas"
                 android:textAlignment="center"
+                android:textSize="12dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView27"
-                android:layout_width="113dp"
+                android:id="@+id/texto_disponibilidad_TRC"
+                android:layout_width="89dp"
                 android:layout_height="wrap_content"
                 android:text="Disponibilidad"
                 android:textAlignment="center"
+                android:textSize="12dp"
                 android:textStyle="bold" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </TableLayout>
 
     <Button
@@ -100,5 +90,5 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/tabla_Reserva_Cubiculo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
