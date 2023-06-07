@@ -1,28 +1,29 @@
 package com.example.proyecto1;
 
 import android.content.Intent;
-
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-class Cubiculo{
+class CubiculoUsuarios{
     private int capacidad;
     private boolean disponibilidadAcceso;
     private boolean disponibilidadBraile;
     private boolean estado;
     private int numero;
 
-    public Cubiculo() {
+    public CubiculoUsuarios() {
         // Constructor vacío requerido para Firestore
     }
 
-    public Cubiculo(int capacidad, boolean disponibilidadAcceso, boolean disponibilidadBraile, boolean estado, int numero) {
+    public CubiculoUsuarios(int capacidad, boolean disponibilidadAcceso, boolean disponibilidadBraile, boolean estado, int numero) {
         this.capacidad = capacidad;
         this.disponibilidadAcceso = disponibilidadAcceso;
         this.disponibilidadBraile = disponibilidadBraile;
@@ -74,25 +75,39 @@ class Cubiculo{
 }
 
 
-public class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.CubiculoViewHolder> {
+class CubiculoAdapterUsuarios extends RecyclerView.Adapter<CubiculoAdapterUsuarios.CubiculoViewHolder> {
 
-    private List<Cubiculo> listaCubiculos;
+
+    List<CubiculoUsuarios> listaCubiculos;
+
 
     // Constructor y métodos necesarios
+
+    public CubiculoAdapterUsuarios( List<CubiculoUsuarios> listaCubiculos) {
+        this.listaCubiculos = listaCubiculos;
+    }
 
     @NonNull
     @Override
     public CubiculoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // No se infla ninguna vista, ya que no se utilizará un diseño específico para cada elemento del RecyclerView
-        View itemView = new View(parent.getContext()); // Crear una vista vacía
-        return new CubiculoViewHolder(itemView);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_cubiculos, parent, false);
+        return new CubiculoViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull CubiculoViewHolder holder, int position) {
 
-        Cubiculo cubiculo = listaCubiculos.get(position);
-        // No se configuran elementos de diseño, ya que no se utiliza un archivo de diseño específico para cada elemento
+        CubiculoUsuarios cubiculo = listaCubiculos.get(position);
+        holder.numCubiculo.setText(String.valueOf(cubiculo.getNumero()));
+        if(cubiculo.isEstado()){
+            holder.estadoCubiculo.setText("Disponible");
+        }
+        else {
+            holder.estadoCubiculo.setText("Inhabilitado");
+        }
+
+
     }
 
     @Override
@@ -102,19 +117,30 @@ public class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.Cubicu
 
     public class CubiculoViewHolder extends RecyclerView.ViewHolder {
 
+        TextView numCubiculo, estadoCubiculo;
         public CubiculoViewHolder(@NonNull View itemView) {
             super(itemView);
+            numCubiculo= itemView.findViewById(R.id.IdNumCubiculo);
+            estadoCubiculo= itemView.findViewById(R.id.IdEstado);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        Cubiculo cubiculo = listaCubiculos.get(position);
+                        CubiculoUsuarios cubiculo = listaCubiculos.get(position);
                         // Abrir la actividad de detalles del cubículo y pasar los datos
                         int idCubiculo = cubiculo.getNumero();
-                        Intent intent = new Intent(itemView.getContext(), DetallesCubiculoEdicion.class);
-                        intent.putExtra("cubiculo", idCubiculo);
-                        itemView.getContext().startActivity(intent);
+                        boolean estadocubiculo=cubiculo.isEstado();
+                        if (estadocubiculo){
+                            Intent intent = new Intent(itemView.getContext(), RealizarReserva.class);
+                            intent.putExtra("cubiculo", idCubiculo);
+                            itemView.getContext().startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(itemView.getContext(), "No se puede reservar este cubiculo", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }
             });
@@ -125,7 +151,7 @@ public class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.Cubicu
     // Agrega aquí los métodos para actualizar la lista de cubiculos en el adaptador
     // Por ejemplo: setListaCubiculos(), addCubiculo(), removeCubiculo(), etc.
 
-    public void setListaCubiculos(List<Cubiculo> listaCubiculos) {
+    public void setListaCubiculos(List<CubiculoUsuarios> listaCubiculos) {
         this.listaCubiculos = listaCubiculos;
     }
 }

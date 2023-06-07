@@ -21,7 +21,7 @@ public class menu_usuarios extends AppCompatActivity {
         buttonSC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(menu_usuarios.this,Reserva_Cubiculos.class);
+                Intent i = new Intent(menu_usuarios.this, SeleccionCubiculosUsuarios.class);
                 startActivity(i);
             }
         });

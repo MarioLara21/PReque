@@ -17,10 +17,10 @@
             android:name=".DetallesCubiculoEdicion"
             android:exported="false" />
         <activity
-            android:name=".RealizarReserva"
+            android:name=".SeleccionCubiculosAdmin"
             android:exported="false" />
         <activity
-            android:name=".ModificarReserva"
+            android:name=".RealizarReserva"
             android:exported="false" />
         <activity
             android:name=".ModificarCubiculo"
@@ -35,7 +35,7 @@
             android:name=".Historial_Reservas"
             android:exported="false" />
         <activity
-            android:name=".Reserva_Cubiculos"
+            android:name=".SeleccionCubiculosUsuarios"
             android:exported="false" />
         <activity
             android:name=".Gestion_Tiempos"

@@ -1,101 +1,135 @@
 package com.example.proyecto1;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class RealizarReserva extends AppCompatActivity {
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    // Obtener referencia a la colección en Firestore
-    CollectionReference cubiculosCollection = db.collection("Cubiculos");
-    private ListenerRegistration listenerRegistration;
+    private Button btnOpenDatePicker;
+    private Button btnOpenTimePicker1;
+    private Button btnOpenTimePicker2;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_realizar_reserva);
+        setContentView(R.layout.realizar_reserva);
 
-        cubiculosCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        btnOpenDatePicker = findViewById(R.id.seleccionFecha);
+        btnOpenTimePicker1 = findViewById(R.id.seleccionHora);
+        btnOpenTimePicker2 = findViewById(R.id.seleccionHora2);
+        calendar = Calendar.getInstance();
+
+        btnOpenDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<Cubiculo> listaCubiculos = new ArrayList<>();
+            public void onClick(View v) {
+                openDatePickerDialog();
+            }
+        });
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Obtener los datos del documento y crear una instancia de Cubiculo
-                        int capacidad = document.getLong("Capacidad").intValue();
-                        boolean disponibilidadAcceso = document.getBoolean("DisponibilidadAcceso");
-                        boolean disponibilidadBraile = document.getBoolean("DisponibilidadBraile");
-                        boolean estado = document.getBoolean("Estado");
-                        int numero = document.getLong("Numero").intValue();
+        btnOpenTimePicker1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTimePickerDialog1();
+            }
+        });
 
-                        Cubiculo cubiculo = new Cubiculo(capacidad, disponibilidadAcceso, disponibilidadBraile, estado, numero);
+        btnOpenTimePicker2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTimePickerDialog2();
+            }
+        });
+    }
 
-                        // Agregar el Cubiculo a la lista
-                        listaCubiculos.add(cubiculo);
+    private void openDatePickerDialog() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                        String selectedDate = dateFormat.format(calendar.getTime());
+                        Log.d("DatePicker", "Fecha seleccionada: " + selectedDate);
                     }
-                    // Obtener referencia al RecyclerView desde el layout
-                    RecyclerView recyclerView = findViewById(R.id.ListaCubiculos);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
 
-                    // Configurar el adaptador
-                    CubiculoAdapter adapter = new CubiculoAdapter();
+        datePickerDialog.show();
+    }
 
-                    adapter.setListaCubiculos(listaCubiculos);
+    private void openTimePickerDialog1() {
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
-                    recyclerView.setAdapter(adapter);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
 
-                    // Configurar el administrador de diseño (puedes usar LinearLayoutManager u otros)
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(RealizarReserva.this);
-                    recyclerView.setLayoutManager(layoutManager);
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss 'UTC-6'", Locale.getDefault());
+                        timeFormat.setTimeZone(TimeZone.getTimeZone("GMT-6")); // Configura la zona horaria deseada
+                        String selectedTime = timeFormat.format(calendar.getTime());
+                        Log.d("TimePicker1", "Hora seleccionada: " + selectedTime);
+                    }
+                },
+                hour,
+                minute,
+                false
+        );
 
-                    // Asignar el adaptador al RecyclerView
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    Log.e("RealizarReserva", "Error al obtener los datos de Firestore", task.getException());
-                }
-            }
-        });
+        timePickerDialog.show();
+    }
 
-        // Escuchar cambios en la colección de Firestore
-        /*
-        ListenerRegistration listenerRegistration = cubiculosCollection.addSnapshotListener((snapshot, error) -> {
-            if (error != null) {
-                // Manejar el error
-                return;
-            }
+    private void openTimePickerDialog2() {
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
-            if (snapshot != null && !snapshot.isEmpty()) {
-                // Obtener los documentos de la colección y actualizar el adaptador
-                List<Cubiculo> listaCubiculos = new ArrayList<>();
-                for (DocumentSnapshot document : snapshot.getDocuments()) {
-                    Cubiculo cubiculo = document.toObject(Cubiculo.class);
-                    listaCubiculos.add(cubiculo);
-                }
-                adapter.setListaCubiculos(listaCubiculos);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
 
-        // Guardar la referencia a la suscripción en una variable de instancia
-        this.listenerRegistration = listenerRegistration;
-        */
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss 'UTC-6'", Locale.getDefault());
+                        timeFormat.setTimeZone(TimeZone.getTimeZone("GMT-6")); // Configura la zona horaria deseada
+                        String selectedTime = timeFormat.format(calendar.getTime());
+                        Log.d("TimePicker2", "Hora seleccionada: " + selectedTime);
+                    }
+                },
+                hour,
+                minute,
+                false
+        );
+
+        timePickerDialog.show();
     }
 }
+
+
+

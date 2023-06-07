@@ -13,7 +13,6 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -48,7 +47,7 @@ public class Login extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     if (!task.getResult().isEmpty()) {
                                         // El usuario existe y las credenciales son correctas
-                                        Intent usuarioIntent = new Intent(Login.this, RealizarReserva.class);
+                                        Intent usuarioIntent = new Intent(Login.this, SeleccionCubiculosAdmin.class);
                                         startActivity(usuarioIntent);
                                     } else {
                                         // Credenciales incorrectas
