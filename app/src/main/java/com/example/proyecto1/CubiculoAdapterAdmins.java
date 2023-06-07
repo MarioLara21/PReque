@@ -76,16 +76,18 @@ class Cubiculo{
 }
 
 
-class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.CubiculoViewHolder> {
+class CubiculoAdapterAdmin extends RecyclerView.Adapter<CubiculoAdapterAdmin.CubiculoViewHolder> {
 
 
     List<Cubiculo> listaCubiculos;
 
+    int Tipo;
+
 
     // Constructor y métodos necesarios
 
-    public CubiculoAdapter( List<Cubiculo> listaCubiculos) {
-        this.listaCubiculos = listaCubiculos;
+    public CubiculoAdapterAdmin( ) {
+
     }
 
     @NonNull
@@ -100,6 +102,7 @@ class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.CubiculoViewH
     public void onBindViewHolder(@NonNull CubiculoViewHolder holder, int position) {
 
         Cubiculo cubiculo = listaCubiculos.get(position);
+
         holder.numCubiculo.setText(String.valueOf(cubiculo.getNumero()));
         if(cubiculo.isEstado()){
             holder.estadoCubiculo.setText("Disponible");
@@ -134,9 +137,17 @@ class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.CubiculoViewH
                         int idCubiculo = cubiculo.getNumero();
                         boolean estadocubiculo=cubiculo.isEstado();
                         if (estadocubiculo){
-                            Intent intent = new Intent(itemView.getContext(), DetallesCubiculoEdicion.class);
-                            intent.putExtra("cubiculo", idCubiculo);
-                            itemView.getContext().startActivity(intent);
+                            if (Tipo==1){
+                                Intent intent = new Intent(itemView.getContext(), DetallesCubiculoEdicion.class);
+                                intent.putExtra("cubiculo", idCubiculo);
+                                itemView.getContext().startActivity(intent);
+                            }
+                            if(Tipo==2){
+                                Intent intent = new Intent(itemView.getContext(), RealizarReserva.class);
+                                intent.putExtra("cubiculo", idCubiculo);
+                                itemView.getContext().startActivity(intent);
+                            }
+
                         }
                         else{
                             Toast.makeText(itemView.getContext(), "No se puede reservar este cubiculo", Toast.LENGTH_SHORT).show();
@@ -155,6 +166,11 @@ class CubiculoAdapter extends RecyclerView.Adapter<CubiculoAdapter.CubiculoViewH
     public void setListaCubiculos(List<Cubiculo> listaCubiculos) {
         this.listaCubiculos = listaCubiculos;
     }
+
+    public void setTipo(int num) {
+        this.Tipo = num;
+    }
+
 }
 
 

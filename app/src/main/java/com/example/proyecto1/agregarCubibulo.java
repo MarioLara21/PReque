@@ -39,7 +39,7 @@ public class agregarCubibulo extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(agregarCubibulo.this,Gestion_Cubiculos.class);
+                Intent i = new Intent(agregarCubibulo.this,GestionCubiculos2.class);
                 startActivity(i);
             }
         });

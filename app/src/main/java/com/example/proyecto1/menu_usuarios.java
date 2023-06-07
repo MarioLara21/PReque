@@ -13,6 +13,12 @@ public class menu_usuarios extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
+        // Obtener el Intent que inició esta actividad
+        Intent intent = getIntent();
+
+        // Obtener el valor pasado a través de putExtra()
+        String carneUsuario= intent.getStringExtra("carne");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_usuarios);
 
@@ -22,6 +28,7 @@ public class menu_usuarios extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent i = new Intent(menu_usuarios.this, SeleccionCubiculosUsuarios.class);
+                i.putExtra("usuarioId", String.valueOf(carneUsuario));
                 startActivity(i);
             }
         });

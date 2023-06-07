@@ -80,11 +80,13 @@ class CubiculoAdapterUsuarios extends RecyclerView.Adapter<CubiculoAdapterUsuari
 
     List<CubiculoUsuarios> listaCubiculos;
 
+    String UsuarioReserva;
+
 
     // Constructor y métodos necesarios
 
-    public CubiculoAdapterUsuarios( List<CubiculoUsuarios> listaCubiculos) {
-        this.listaCubiculos = listaCubiculos;
+    public CubiculoAdapterUsuarios() {
+
     }
 
     @NonNull
@@ -123,6 +125,7 @@ class CubiculoAdapterUsuarios extends RecyclerView.Adapter<CubiculoAdapterUsuari
             numCubiculo= itemView.findViewById(R.id.IdNumCubiculo);
             estadoCubiculo= itemView.findViewById(R.id.IdEstado);
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,6 +138,7 @@ class CubiculoAdapterUsuarios extends RecyclerView.Adapter<CubiculoAdapterUsuari
                         if (estadocubiculo){
                             Intent intent = new Intent(itemView.getContext(), RealizarReserva.class);
                             intent.putExtra("cubiculo", idCubiculo);
+                            intent.putExtra("idUser",String.valueOf(UsuarioReserva));
                             itemView.getContext().startActivity(intent);
                         }
                         else{
@@ -153,6 +157,10 @@ class CubiculoAdapterUsuarios extends RecyclerView.Adapter<CubiculoAdapterUsuari
 
     public void setListaCubiculos(List<CubiculoUsuarios> listaCubiculos) {
         this.listaCubiculos = listaCubiculos;
+    }
+
+    public void setUsuarioReserva(String UsuarioReserva) {
+        this.UsuarioReserva = UsuarioReserva;
     }
 }
 

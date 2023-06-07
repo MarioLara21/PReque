@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SeleccionCubiculosAdmin">
+    tools:context=".GestionCubiculos2">
 
     <Button
-        android:id="@+id/btn_VolverMenu"
+        android:id="@+id/button_volver_GC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Volver"
@@ -27,6 +27,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_VolverMenu" />
+        app:layout_constraintTop_toBottomOf="@+id/button_volver_GC" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

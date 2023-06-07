@@ -3,6 +3,7 @@ package com.example.proyecto1;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -27,12 +28,18 @@ public class SeleccionCubiculosUsuarios extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Obtener referencia a la colección en Firestore
     CollectionReference cubiculosCollection = db.collection("Cubiculos");
-    private ListenerRegistration listenerRegistration;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seleccion_cubiculos_usuarios);
+
+        // Obtener el Intent que inició esta actividad
+        Intent intent = getIntent();
+
+        // Obtener el valor pasado a través de putExtra()
+        String carneUsuario= intent.getStringExtra("usuarioId");
 
         cubiculosCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -57,9 +64,10 @@ public class SeleccionCubiculosUsuarios extends AppCompatActivity {
                     RecyclerView recyclerView = findViewById(R.id.ListaCubiculos);
 
                     // Configurar el adaptador
-                    CubiculoAdapterUsuarios adapter = new CubiculoAdapterUsuarios(listaCubiculos);
+                    CubiculoAdapterUsuarios adapter = new CubiculoAdapterUsuarios();
 
                     adapter.setListaCubiculos(listaCubiculos);
+                    adapter.setUsuarioReserva(String.valueOf(carneUsuario));
 
                     adapter.notifyDataSetChanged();
 

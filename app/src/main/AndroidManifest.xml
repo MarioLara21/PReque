@@ -17,7 +17,7 @@
             android:name=".DetallesCubiculoEdicion"
             android:exported="false" />
         <activity
-            android:name=".SeleccionCubiculosAdmin"
+            android:name=".GestionCubiculos2"
             android:exported="false" />
         <activity
             android:name=".RealizarReserva"

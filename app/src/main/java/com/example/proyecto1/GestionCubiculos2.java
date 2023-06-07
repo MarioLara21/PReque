@@ -1,7 +1,10 @@
 package com.example.proyecto1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeleccionCubiculosAdmin extends AppCompatActivity {
+public class GestionCubiculos2 extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Obtener referencia a la colección en Firestore
@@ -30,7 +33,37 @@ public class SeleccionCubiculosAdmin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seleccion_cubiculos_admins);
+        setContentView(R.layout.gestion_cubiculos2);
+
+
+        Button buttonAC = (Button) findViewById(R.id.button_agregar_cubiculo);
+        Button buttonEC = (Button) findViewById(R.id.button_eliminar_cubiculo);
+        Button buttonVGC = (Button) findViewById(R.id.button_volver_GC);
+        buttonEC.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                Intent i = new Intent(GestionCubiculos2.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
+
+        buttonVGC.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                Intent i = new Intent(GestionCubiculos2.this,menu_administradores.class);
+                startActivity(i);
+            }
+        });
+        buttonAC.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                Intent i = new Intent(GestionCubiculos2.this,agregarCubibulo.class);
+                startActivity(i);
+            }
+        });
 
         cubiculosCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -55,16 +88,16 @@ public class SeleccionCubiculosAdmin extends AppCompatActivity {
                     RecyclerView recyclerView = findViewById(R.id.ListaCubiculos);
 
                     // Configurar el adaptador
-                    CubiculoAdapter adapter = new CubiculoAdapter(listaCubiculos);
+                    CubiculoAdapterAdmin adapter = new CubiculoAdapterAdmin();
 
                     adapter.setListaCubiculos(listaCubiculos);
-
+                    adapter.setTipo(1);
                     adapter.notifyDataSetChanged();
 
 
 
                     // Configurar el administrador de diseño (puedes usar LinearLayoutManager u otros)
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(SeleccionCubiculosAdmin.this);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(GestionCubiculos2.this);
                     recyclerView.setLayoutManager(layoutManager);
 
                     // Asignar el adaptador al RecyclerView

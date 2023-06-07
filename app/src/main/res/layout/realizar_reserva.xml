@@ -7,10 +7,10 @@
     tools:context=".RealizarReserva">
 
     <Button
-        android:id="@+id/btn_ModificarCubiculo2"
+        android:id="@+id/btn_RealizarReservaCubiculo"
         android:layout_width="122dp"
         android:layout_height="47dp"
-        android:hint="Modificar"
+        android:hint="Reservar"
         app:cornerRadius="30px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.463"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.945" />
 
     <Button
-        android:id="@+id/btn_Volver3"
+        android:id="@+id/btn_VolveraSeleccionUsuarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Volver"
@@ -34,33 +34,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.039" />
 
-    <EditText
-        android:id="@+id/textNumeroCubiculoMOD2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Cubiculo"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.247" />
 
     <TextView
         android:id="@+id/textView44"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Datos de Nuevos:"
+        android:text="Cubiculo:"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154" />
-
+        app:layout_constraintVertical_bias="0.2" />
 
     <TextView
         android:id="@+id/textView47"
@@ -136,6 +122,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35" />
+
+    <TextView
+        android:id="@+id/numeroCubiculoSeleccionado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView44"
+        tools:layout_editor_absoluteY="140dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

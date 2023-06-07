@@ -47,7 +47,9 @@ public class Login extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     if (!task.getResult().isEmpty()) {
                                         // El usuario existe y las credenciales son correctas
-                                        Intent usuarioIntent = new Intent(Login.this, SeleccionCubiculosAdmin.class);
+                                        String carne = task.getResult().getDocuments().get(0).getString("carne");
+                                        Intent usuarioIntent = new Intent(Login.this, menu_usuarios.class);
+                                        usuarioIntent.putExtra("usuario", String.valueOf(carne));
                                         startActivity(usuarioIntent);
                                     } else {
                                         // Credenciales incorrectas
