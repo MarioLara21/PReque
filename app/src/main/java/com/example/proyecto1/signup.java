@@ -71,7 +71,7 @@ public class signup extends AppCompatActivity {
                 String segundoApellido = segundoApellidoText.getText().toString();
                 String carne = carneText.getText().toString();
                 String cedula = cedulaText.getText().toString();
-                String regexContrasena = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8}$".toString();
+                String regexContrasena = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
                 // Verifica si el correo termina en "@estudiantec.cr"
                 if (correo.endsWith("@estudiantec.cr")) {
                     // Autentica al usuario utilizando el método createUserWithEmailAndPassword()
@@ -129,7 +129,8 @@ public class signup extends AppCompatActivity {
                                     }
                                 });
                     }else{
-                        Toast.makeText(getApplicationContext(), "Por favor utilice una contraseña con el siguiente formato:\n " +"8 caracteres mínimo\n" + "minimo una mayúscula\n" + "mínimo una minúscula\n" + "mínimo un caracter especial", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Por favor utilice una contraseña con el siguiente formato:", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "8 caracteres, una mayúscula, una minúscula, un caracter especial", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     // El correo no termina en "@estudiantec.cr", no se agrega a la base de datos
