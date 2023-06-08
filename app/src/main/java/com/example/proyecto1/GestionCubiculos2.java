@@ -88,13 +88,11 @@ public class GestionCubiculos2 extends AppCompatActivity {
                     RecyclerView recyclerView = findViewById(R.id.ListaCubiculos);
 
                     // Configurar el adaptador
-                    CubiculoAdapterAdmin adapter = new CubiculoAdapterAdmin();
+                    CubiculoAdapterAdmin adapter = new CubiculoAdapterAdmin(listaCubiculos);
 
-                    adapter.setListaCubiculos(listaCubiculos);
-                    adapter.setTipo(1);
+                    //adapter.setListaCubiculos(listaCubiculos);
+
                     adapter.notifyDataSetChanged();
-
-
 
                     // Configurar el administrador de diseño (puedes usar LinearLayoutManager u otros)
                     LinearLayoutManager layoutManager = new LinearLayoutManager(GestionCubiculos2.this);

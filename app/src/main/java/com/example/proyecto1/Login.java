@@ -52,10 +52,6 @@ public class Login extends AppCompatActivity {
                                         usuarioIntent.putExtra("usuario", String.valueOf(carne));
                                         startActivity(usuarioIntent);
                                     } else {
-                                        // Credenciales incorrectas
-                                        Toast.makeText(Login.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-                                        Log.d("Login", "Credenciales incorrectas. Correo: " + correoText + ", Contraseña: " + passText);
-
                                         // Intenta buscar en la colección "Admins"
                                         buscarEnAdmins(correoText, passText);
                                     }

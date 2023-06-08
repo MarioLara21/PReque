@@ -81,13 +81,11 @@ class CubiculoAdapterAdmin extends RecyclerView.Adapter<CubiculoAdapterAdmin.Cub
 
     List<Cubiculo> listaCubiculos;
 
-    int Tipo;
-
 
     // Constructor y métodos necesarios
 
-    public CubiculoAdapterAdmin( ) {
-
+    public CubiculoAdapterAdmin(List<Cubiculo> listaCubiculos) {
+        this.listaCubiculos = listaCubiculos;
     }
 
     @NonNull
@@ -135,23 +133,9 @@ class CubiculoAdapterAdmin extends RecyclerView.Adapter<CubiculoAdapterAdmin.Cub
                         Cubiculo cubiculo = listaCubiculos.get(position);
                         // Abrir la actividad de detalles del cubículo y pasar los datos
                         int idCubiculo = cubiculo.getNumero();
-                        boolean estadocubiculo=cubiculo.isEstado();
-                        if (estadocubiculo){
-                            if (Tipo==1){
-                                Intent intent = new Intent(itemView.getContext(), DetallesCubiculoEdicion.class);
-                                intent.putExtra("cubiculo", idCubiculo);
-                                itemView.getContext().startActivity(intent);
-                            }
-                            if(Tipo==2){
-                                Intent intent = new Intent(itemView.getContext(), RealizarReserva.class);
-                                intent.putExtra("cubiculo", idCubiculo);
-                                itemView.getContext().startActivity(intent);
-                            }
-
-                        }
-                        else{
-                            Toast.makeText(itemView.getContext(), "No se puede reservar este cubiculo", Toast.LENGTH_SHORT).show();
-                        }
+                        Intent intent = new Intent(itemView.getContext(), DetallesCubiculoEdicion.class);
+                        intent.putExtra("cubiculo", idCubiculo);
+                        itemView.getContext().startActivity(intent);
 
                     }
                 }
@@ -167,9 +151,6 @@ class CubiculoAdapterAdmin extends RecyclerView.Adapter<CubiculoAdapterAdmin.Cub
         this.listaCubiculos = listaCubiculos;
     }
 
-    public void setTipo(int num) {
-        this.Tipo = num;
-    }
 
 }
 
