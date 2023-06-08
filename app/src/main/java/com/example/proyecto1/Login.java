@@ -51,13 +51,11 @@ public class Login extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if (user != null) {
                                         // El usuario se autenticó correctamente
-                                        Intent usuarioIntent = new Intent(Login.this, menu_usuarios.class);
-                                        startActivity(usuarioIntent);
+                                        buscarEnAdmins(correoText, passText);
                                     } else {
                                         // El usuario no está autenticado o las credenciales son incorrectas
                                         Toast.makeText(Login.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                                         Log.d("Login", "Credenciales incorrectas. Correo: " + correoText + ", Contraseña: " + passText);
-                                        buscarEnAdmins(correoText, passText);
                                     }
                                 } else {
                                     // Error al autenticar al usuario
@@ -84,8 +82,9 @@ public class Login extends AppCompatActivity {
                                 Intent adminIntent = new Intent(Login.this, menu_administradores.class);
                                 startActivity(adminIntent);
                             } else {
-                                // Credenciales incorrectas
-                                Toast.makeText(Login.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                                // No es un administrador, redirigir al menú de usuarios
+                                Intent usuarioIntent = new Intent(Login.this, menu_usuarios.class);
+                                startActivity(usuarioIntent);
                             }
                         } else {
                             // Error al consultar la colección "Admins"

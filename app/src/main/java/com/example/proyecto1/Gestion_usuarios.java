@@ -1,32 +1,28 @@
 package com.example.proyecto1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class Usuario {
-    private String correoElectronico;
-    private String fechaDeNacimiento;
-    private String nombre;
-    private String primerApellido;
-    private String segundoApellido;
+    private String CorreoElectronico;
+    private String FechaDeNacimiento;
+    private String Nombre;
+    private String PrimerApellido;
+    private String SegundoApellido;
     private String carne;
     private String cedula;
 
@@ -35,53 +31,53 @@ class Usuario {
     }
 
     public Usuario(String correoElectronico, String fechaDeNacimiento, String nombre, String primerApellido, String segundoApellido, String carne, String cedula) {
-        this.correoElectronico = correoElectronico;
-        this.fechaDeNacimiento = fechaDeNacimiento;
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
+        this.CorreoElectronico = correoElectronico;
+        this.FechaDeNacimiento = fechaDeNacimiento;
+        this.Nombre = nombre;
+        this.PrimerApellido = primerApellido;
+        this.SegundoApellido = segundoApellido;
         this.carne = carne;
         this.cedula = cedula;
     }
 
     public String getCorreoElectronico() {
-        return correoElectronico;
+        return CorreoElectronico;
     }
 
     public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+        this.CorreoElectronico = correoElectronico;
     }
 
     public String getFechaDeNacimiento() {
-        return fechaDeNacimiento;
+        return FechaDeNacimiento;
     }
 
     public void setFechaDeNacimiento(String fechaDeNacimiento) {
-        this.fechaDeNacimiento = fechaDeNacimiento;
+        this.FechaDeNacimiento = fechaDeNacimiento;
     }
 
     public String getNombre() {
-        return nombre;
+        return Nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.Nombre = nombre;
     }
 
     public String getPrimerApellido() {
-        return primerApellido;
+        return PrimerApellido;
     }
 
     public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
+        this.PrimerApellido = primerApellido;
     }
 
     public String getSegundoApellido() {
-        return segundoApellido;
+        return SegundoApellido;
     }
 
     public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
+        this.SegundoApellido = segundoApellido;
     }
 
     public String getCarne() {
@@ -103,6 +99,8 @@ class Usuario {
 public class Gestion_usuarios extends AppCompatActivity {
     private FirebaseFirestore db;
     private CollectionReference usuariosCollection;
+    private RecyclerView recyclerView;
+    private UsuarioAdapter usuarioAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +111,16 @@ public class Gestion_usuarios extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         usuariosCollection = db.collection("usuarios");
 
-        // Obtener la referencia al TableLayout del diseño XML
-        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        // Obtener la referencia al RecyclerView
+        recyclerView = findViewById(R.id.recyclerView);
+
+        // Establecer el LayoutManager para el RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Crear el adaptador de usuarios
+        usuarioAdapter = new UsuarioAdapter(new ArrayList<>());
+        recyclerView.setAdapter(usuarioAdapter);
 
         // Realizar la consulta a Firestore
         usuariosCollection.get().addOnCompleteListener(task -> {
@@ -135,38 +141,23 @@ public class Gestion_usuarios extends AppCompatActivity {
                     listaUsuarios.add(usuario);
                 }
 
-                // Mostrar los datos de los usuarios en la tabla
-                for (Usuario usuario : listaUsuarios) {
-                    TableRow row = new TableRow(this);
-                    TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                    row.setLayoutParams(layoutParams);
-
-                    TextView correoTextView = new TextView(this);
-                    correoTextView.setText(usuario.getCorreoElectronico());
-                    row.addView(correoTextView);
-
-                    TextView nombreTextView = new TextView(this);
-                    nombreTextView.setText(usuario.getNombre());
-                    row.addView(nombreTextView);
-
-                    TextView apellidoTextView = new TextView(this);
-                    apellidoTextView.setText(usuario.getPrimerApellido() + " " + usuario.getSegundoApellido());
-                    row.addView(apellidoTextView);
-
-                    TextView carneTextView = new TextView(this);
-                    carneTextView.setText(usuario.getCarne());
-                    row.addView(carneTextView);
-
-                    TextView cedulaTextView = new TextView(this);
-                    cedulaTextView.setText(usuario.getCedula());
-                    row.addView(cedulaTextView);
-
-                    tableLayout.addView(row);
-                }
+                // Actualizar los datos del adaptador
+                usuarioAdapter.setUsuarios(listaUsuarios);
+                usuarioAdapter.notifyDataSetChanged();
             } else {
                 Log.d("Gestion_usuarios", "Error getting documents: ", task.getException());
             }
         });
+        Button buttonVolver = findViewById(R.id.button_volver_usuarios);
+        buttonVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Gestion_usuarios.this, menu_administradores.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 }
 
