@@ -35,6 +35,9 @@
             android:name=".Gestion_Tiempos"
             android:exported="false" />
         <activity
+            android:name=".Gestion_usuarios"
+            android:exported="false" />
+        <activity
             android:name=".Gestion_Asignacion"
             android:exported="false" />
         <activity

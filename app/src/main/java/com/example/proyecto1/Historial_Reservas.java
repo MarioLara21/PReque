@@ -20,7 +20,7 @@ public class Historial_Reservas extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(Historial_Reservas.this,MainActivity.class);
+                Intent i = new Intent(Historial_Reservas.this,Gestion_usuarios.class);
                 startActivity(i);
             }
         });
