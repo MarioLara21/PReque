@@ -21,11 +21,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class signup extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private DocumentReference contadorRef;
+
+    public static boolean customRegex(EditText editText, String
+            regexPattern){
+        Pattern pattern = Pattern.compile(regexPattern,Pattern.CASE_INSENSITIVE);
+        Matcher matcher =
+                pattern.matcher(editText.getText().toString());
+        if(!matcher.find()){
+            //editText.setError(errorMessage); Si se necesita se debe agregar esto en los parametros String errorMessage
+            return false;
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,74 +71,73 @@ public class signup extends AppCompatActivity {
                 String segundoApellido = segundoApellidoText.getText().toString();
                 String carne = carneText.getText().toString();
                 String cedula = cedulaText.getText().toString();
-
+                String regexContrasena = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
                 // Verifica si el correo termina en "@estudiantec.cr"
                 if (correo.endsWith("@estudiantec.cr")) {
                     // Autentica al usuario utilizando el método createUserWithEmailAndPassword()
-                    mAuth.createUserWithEmailAndPassword(correo, password)
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    // El usuario se autenticó correctamente, procede a agregar sus datos a la base de datos
-                                    FirebaseUser currentUser = mAuth.getCurrentUser();
-                                    if (currentUser != null) {
-                                        // Convierte la cadena de fecha en un objeto Date
-                                        Date fechaNacimientoDate = parseDate(fechaNacimientoString);
+                    if(customRegex(passwordText,regexContrasena)){ //Verifica el formato de la contrasenna
+                        mAuth.createUserWithEmailAndPassword(correo, password)
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        // El usuario se autenticó correctamente, procede a agregar sus datos a la base de datos
+                                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                                        if (currentUser != null) {
+                                            // Convierte la cadena de fecha en un objeto Date
+                                            Date fechaNacimientoDate = parseDate(fechaNacimientoString);
+                                            // Obtiene el valor de tiempo en milisegundos como un long
+                                            long fechaNacimientoMillis = fechaNacimientoDate.getTime();
+                                            // Crea el objeto Timestamp utilizando el valor de tiempo
+                                            Timestamp fechaNacimiento = new Timestamp(fechaNacimientoMillis);
+                                            // Obtiene el contador actual
+                                            contadorRef.get().addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    long contador = task1.getResult().getLong("contador");
+                                                    // Crea el nuevo documento de usuario con el ID basado en el contador
+                                                    DocumentReference nuevoUsuarioRef = db.collection("usuarios").document(String.valueOf(contador));
+                                                    Map<String, Object> nuevoUsuario = new HashMap<>();
+                                                    nuevoUsuario.put("CorreoElectronico", correo);
+                                                    nuevoUsuario.put("Contrasena", password);
+                                                    nuevoUsuario.put("FechaDeNacimiento", fechaNacimiento);
+                                                    nuevoUsuario.put("Nombre", nombre);
+                                                    nuevoUsuario.put("PrimerApellido", primerApellido);
+                                                    nuevoUsuario.put("SegundoApellido", segundoApellido);
+                                                    nuevoUsuario.put("carne", carne);
+                                                    nuevoUsuario.put("cedula", cedula);
 
-                                        // Obtiene el valor de tiempo en milisegundos como un long
-                                        long fechaNacimientoMillis = fechaNacimientoDate.getTime();
-
-                                        // Crea el objeto Timestamp utilizando el valor de tiempo
-                                        Timestamp fechaNacimiento = new Timestamp(fechaNacimientoMillis);
-
-                                        // Obtiene el contador actual
-                                        contadorRef.get().addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful()) {
-                                                long contador = task1.getResult().getLong("contador");
-
-                                                // Crea el nuevo documento de usuario con el ID basado en el contador
-                                                DocumentReference nuevoUsuarioRef = db.collection("usuarios").document(String.valueOf(contador));
-
-                                                Map<String, Object> nuevoUsuario = new HashMap<>();
-                                                nuevoUsuario.put("CorreoElectronico", correo);
-                                                nuevoUsuario.put("Contrasena", password);
-                                                nuevoUsuario.put("FechaDeNacimiento", fechaNacimiento);
-                                                nuevoUsuario.put("Nombre", nombre);
-                                                nuevoUsuario.put("PrimerApellido", primerApellido);
-                                                nuevoUsuario.put("SegundoApellido", segundoApellido);
-                                                nuevoUsuario.put("carne", carne);
-                                                nuevoUsuario.put("cedula", cedula);
-
-                                                nuevoUsuarioRef.set(nuevoUsuario)
-                                                        .addOnCompleteListener(task2 -> {
-                                                            if (task2.isSuccessful()) {
-                                                                // Incrementa el contador en la base de datos
-                                                                contadorRef.update("contador", contador + 1);
-                                                                Toast.makeText(getApplicationContext(), "Se agregó el usuario con éxito", Toast.LENGTH_SHORT).show();
-                                                            } else {
-                                                                // No se pudo agregar el usuario a la base de datos
-                                                                String errorMessage = task2.getException().getMessage();
-                                                                Toast.makeText(getApplicationContext(), "Error al agregar el usuario: " + errorMessage, Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
-                                            } else {
-                                                // No se pudo obtener el contador
-                                                String errorMessage = task1.getException().getMessage();
-                                                Toast.makeText(getApplicationContext(), "Error al obtener el contador: " + errorMessage, Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                    nuevoUsuarioRef.set(nuevoUsuario)
+                                                            .addOnCompleteListener(task2 -> {
+                                                                if (task2.isSuccessful()) {
+                                                                    // Incrementa el contador en la base de datos
+                                                                    contadorRef.update("contador", contador + 1);
+                                                                    Toast.makeText(getApplicationContext(), "Se agregó el usuario con éxito", Toast.LENGTH_SHORT).show();
+                                                                } else {
+                                                                    // No se pudo agregar el usuario a la base de datos
+                                                                    String errorMessage = task2.getException().getMessage();
+                                                                    Toast.makeText(getApplicationContext(), "Error al agregar el usuario: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                } else {
+                                                    // No se pudo obtener el contador
+                                                    String errorMessage = task1.getException().getMessage();
+                                                    Toast.makeText(getApplicationContext(), "Error al obtener el contador: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        // No se pudo autenticar al usuario
+                                        Toast.makeText(getApplicationContext(), "No se pudo autenticar al usuario", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
-                                    // No se pudo autenticar al usuario
-                                    Toast.makeText(getApplicationContext(), "No se pudo autenticar al usuario", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                });
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Por favor utilice una contraseña con el siguiente formato:", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "8 caracteres, una mayúscula, una minúscula, un caracter especial", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     // El correo no termina en "@estudiantec.cr", no se agrega a la base de datos
                     Toast.makeText(getApplicationContext(), "El correo no es válido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
         boton_volv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +146,6 @@ public class signup extends AppCompatActivity {
             }
         });
     }
-
     // Método para convertir una cadena de fecha en un objeto Date
     private Date parseDate(String dateString) {
         try {

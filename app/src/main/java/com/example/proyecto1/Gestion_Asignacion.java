@@ -31,7 +31,7 @@ public class Gestion_Asignacion extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-                String correo = "reloclolo21@gmail.com"; // Correo del estudiante
+                String correo = "correoprueba@gmail.com"; // Correo del estudiante
                 String asunto = "Asunto del correo";
                 String mensaje = "Mensaje de prueba para el correo";
 
