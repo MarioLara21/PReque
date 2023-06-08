@@ -9,20 +9,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Usuario {
-    private String CorreoElectronico;
-    private String FechaDeNacimiento;
-    private String Nombre;
-    private String PrimerApellido;
-    private String SegundoApellido;
+// Clase Usuario
+ class Usuario {
+    private String id;
+    private String correoElectronico;
+    private Timestamp fechaDeNacimiento;
+    private String nombre;
+    private String primerApellido;
+    private String segundoApellido;
     private String carne;
     private String cedula;
 
@@ -30,77 +37,58 @@ class Usuario {
         // Constructor vacío requerido para Firestore
     }
 
-    public Usuario(String correoElectronico, String fechaDeNacimiento, String nombre, String primerApellido, String segundoApellido, String carne, String cedula) {
-        this.CorreoElectronico = correoElectronico;
-        this.FechaDeNacimiento = fechaDeNacimiento;
-        this.Nombre = nombre;
-        this.PrimerApellido = primerApellido;
-        this.SegundoApellido = segundoApellido;
+    public Usuario(String id, String correoElectronico, Timestamp fechaDeNacimiento, String nombre, String primerApellido, String segundoApellido, String carne, String cedula) {
+        this.id = id;
+        this.correoElectronico = correoElectronico;
+        this.fechaDeNacimiento = fechaDeNacimiento;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
         this.carne = carne;
         this.cedula = cedula;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getCorreoElectronico() {
-        return CorreoElectronico;
+        return correoElectronico;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.CorreoElectronico = correoElectronico;
-    }
-
-    public String getFechaDeNacimiento() {
-        return FechaDeNacimiento;
-    }
-
-    public void setFechaDeNacimiento(String fechaDeNacimiento) {
-        this.FechaDeNacimiento = fechaDeNacimiento;
+    public Timestamp getFechaDeNacimiento() {
+        return fechaDeNacimiento;
     }
 
     public String getNombre() {
-        return Nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.Nombre = nombre;
+        return nombre;
     }
 
     public String getPrimerApellido() {
-        return PrimerApellido;
-    }
-
-    public void setPrimerApellido(String primerApellido) {
-        this.PrimerApellido = primerApellido;
+        return primerApellido;
     }
 
     public String getSegundoApellido() {
-        return SegundoApellido;
-    }
-
-    public void setSegundoApellido(String segundoApellido) {
-        this.SegundoApellido = segundoApellido;
+        return segundoApellido;
     }
 
     public String getCarne() {
         return carne;
     }
 
-    public void setCarne(String carne) {
-        this.carne = carne;
-    }
-
     public String getCedula() {
         return cedula;
     }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
 }
+
+// Clase Gestion_usuarios
 public class Gestion_usuarios extends AppCompatActivity {
     private FirebaseFirestore db;
     private CollectionReference usuariosCollection;
     private RecyclerView recyclerView;
     private UsuarioAdapter usuarioAdapter;
+    private Button buttonEliminarUsuario;
+    private Button buttonRevisarHistorial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,16 +116,19 @@ public class Gestion_usuarios extends AppCompatActivity {
                 List<Usuario> listaUsuarios = new ArrayList<>();
 
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    // Obtener los datos del documento y crear una instancia de Usuario
-                    String correoElectronico = document.getString("correoElectronico");
-                    String fechaDeNacimiento = document.getString("fechaDeNacimiento");
-                    String nombre = document.getString("nombre");
-                    String primerApellido = document.getString("primerApellido");
-                    String segundoApellido = document.getString("segundoApellido");
+                    // Obtener el ID del documento
+                    String id = document.getId();
+
+                    // Obtener los demás datos del documento y crear una instancia de Usuario
+                    String correoElectronico = document.getString("CorreoElectronico");
+                    Timestamp fechaDeNacimiento = document.getTimestamp("FechaDeNacimiento");
+                    String nombre = document.getString("Nombre");
+                    String primerApellido = document.getString("PrimerApellido");
+                    String segundoApellido = document.getString("SegundoApellido");
                     String carne = document.getString("carne");
                     String cedula = document.getString("cedula");
 
-                    Usuario usuario = new Usuario(correoElectronico, fechaDeNacimiento, nombre, primerApellido, segundoApellido, carne, cedula);
+                    Usuario usuario = new Usuario(id, correoElectronico, fechaDeNacimiento, nombre, primerApellido, segundoApellido, carne, cedula);
                     listaUsuarios.add(usuario);
                 }
 
@@ -148,6 +139,7 @@ public class Gestion_usuarios extends AppCompatActivity {
                 Log.d("Gestion_usuarios", "Error getting documents: ", task.getException());
             }
         });
+
         Button buttonVolver = findViewById(R.id.button_volver_usuarios);
         buttonVolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +150,53 @@ public class Gestion_usuarios extends AppCompatActivity {
             }
         });
 
+        buttonEliminarUsuario = findViewById(R.id.button_eliminar_usuario);
+        buttonEliminarUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!usuarioAdapter.getSelectedUserId().isEmpty()) {
+                    // Obtener el ID del usuario seleccionado
+                    String selectedUserId = usuarioAdapter.getSelectedUserId();
+
+                    // Eliminar el usuario de Firestore
+                    usuariosCollection.document(selectedUserId).delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Gestion_usuarios.this, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show();
+
+                                    // Actualizar la lista de usuarios
+                                    usuarioAdapter.setSelectedUserId("");
+                                    usuarioAdapter.notifyDataSetChanged();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Gestion_usuarios.this, "Error al eliminar usuario", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(Gestion_usuarios.this, "Seleccione un usuario para eliminar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        buttonRevisarHistorial = findViewById(R.id.button_revisar_historial);
+        buttonRevisarHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!usuarioAdapter.getSelectedUserId().isEmpty()) {
+                    // Obtener el ID del usuario seleccionado
+                    String selectedUserId = usuarioAdapter.getSelectedUserId();
+
+                    // Pasar el ID del usuario a la actividad de revisar historial
+                    Intent intent = new Intent(Gestion_usuarios.this, Historial_Reservas.class);
+                    intent.putExtra("userId", selectedUserId);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(Gestion_usuarios.this, "Seleccione un usuario para revisar el historial", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
-
