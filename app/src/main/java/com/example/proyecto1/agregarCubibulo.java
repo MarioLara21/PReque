@@ -39,7 +39,7 @@ public class agregarCubibulo extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(agregarCubibulo.this,Gestion_Cubiculos.class);
+                Intent i = new Intent(agregarCubibulo.this,GestionCubiculos2.class);
                 startActivity(i);
             }
         });
@@ -64,7 +64,7 @@ public class agregarCubibulo extends AppCompatActivity {
                 nuevoDocumento.put("DisponibilidadAcceso", acceso);
                 nuevoDocumento.put("DisponibilidadBraile", braile);
                 nuevoDocumento.put("Estado", disponible);
-                nuevoDocumento.put("Numero", 30);
+                nuevoDocumento.put("Numero", idCubiculo);
                 String NombreCubiculo= "Cubiculo"+numeroCubiculoText.getText().toString();
                 DocumentReference nuevoDocumentoRef = cubiculosRef.document(NombreCubiculo);
                 nuevoDocumentoRef.set(nuevoDocumento)
