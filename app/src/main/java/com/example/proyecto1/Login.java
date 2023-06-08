@@ -13,11 +13,15 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class Login extends AppCompatActivity {
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
     @Override
@@ -25,12 +29,12 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         EditText correo = findViewById(R.id.Correo_text2);
         EditText password = findViewById(R.id.Contrasena_text2);
         Button myButton = findViewById(R.id.button_registro2);
-
 
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,30 +42,27 @@ public class Login extends AppCompatActivity {
                 String correoText = correo.getText().toString();
                 String passText = password.getText().toString();
 
-                // Buscar en la colección "usuarios"
-                db.collection("usuarios").whereEqualTo("CorreoElectronico", correoText)
-                        .whereEqualTo("Contrasena", passText)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                // Autenticar al usuario utilizando el método signInWithEmailAndPassword()
+                mAuth.signInWithEmailAndPassword(correoText, passText)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    if (!task.getResult().isEmpty()) {
-                                        // El usuario existe y las credenciales son correctas
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        // El usuario se autenticó correctamente
                                         Intent usuarioIntent = new Intent(Login.this, menu_usuarios.class);
                                         startActivity(usuarioIntent);
                                     } else {
-                                        // Credenciales incorrectas
+                                        // El usuario no está autenticado o las credenciales son incorrectas
                                         Toast.makeText(Login.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                                         Log.d("Login", "Credenciales incorrectas. Correo: " + correoText + ", Contraseña: " + passText);
-
-                                        // Intenta buscar en la colección "Admins"
                                         buscarEnAdmins(correoText, passText);
                                     }
                                 } else {
-                                    // Error al consultar la colección "usuarios"
-                                    Toast.makeText(Login.this, "Error al buscar el usuario", Toast.LENGTH_SHORT).show();
-                                    Log.d("Login", "Error al buscar el usuario: " + task.getException().getMessage());
+                                    // Error al autenticar al usuario
+                                    Toast.makeText(Login.this, "Error al autenticar al usuario", Toast.LENGTH_SHORT).show();
+                                    Log.d("Login", "Error al autenticar al usuario: " + task.getException().getMessage());
                                 }
                             }
                         });

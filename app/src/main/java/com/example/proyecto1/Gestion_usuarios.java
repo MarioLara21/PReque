@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -14,8 +15,91 @@ import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+class Usuario {
+    private String correoElectronico;
+    private String fechaDeNacimiento;
+    private String nombre;
+    private String primerApellido;
+    private String segundoApellido;
+    private String carne;
+    private String cedula;
+
+    public Usuario() {
+        // Constructor vacío requerido para Firestore
+    }
+
+    public Usuario(String correoElectronico, String fechaDeNacimiento, String nombre, String primerApellido, String segundoApellido, String carne, String cedula) {
+        this.correoElectronico = correoElectronico;
+        this.fechaDeNacimiento = fechaDeNacimiento;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.carne = carne;
+        this.cedula = cedula;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public String getFechaDeNacimiento() {
+        return fechaDeNacimiento;
+    }
+
+    public void setFechaDeNacimiento(String fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPrimerApellido() {
+        return primerApellido;
+    }
+
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
+
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
+    }
+
+    public String getCarne() {
+        return carne;
+    }
+
+    public void setCarne(String carne) {
+        this.carne = carne;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+}
 public class Gestion_usuarios extends AppCompatActivity {
     private FirebaseFirestore db;
     private CollectionReference usuariosCollection;
@@ -35,81 +119,54 @@ public class Gestion_usuarios extends AppCompatActivity {
         // Realizar la consulta a Firestore
         usuariosCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
-                if (querySnapshot != null) {
-                    // Recorrer los documentos obtenidos
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                        // Crear una nueva fila para cada documento
-                        TableRow row = new TableRow(Gestion_usuarios.this);
+                List<Usuario> listaUsuarios = new ArrayList<>();
 
-                        // Obtener los datos de cada documento
-                        String numeroCubiculo = document.getString("numero_cubiculo");
-                        String numeroCarne = document.getString("numero_carne");
-                        String nombre = document.getString("nombre");
-                        String primerApellido = document.getString("primer_apellido");
-                        String segundoApellido = document.getString("segundo_apellido");
-                        String edad = document.getString("edad");
-                        String fechaNacimiento = document.getString("fecha_nacimiento");
-                        String estado = document.getString("estado");
-                        String correoElectronico = document.getString("correo_electronico");
-                        String contrasenaInstitucional = document.getString("contrasena_institucional");
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    // Obtener los datos del documento y crear una instancia de Usuario
+                    String correoElectronico = document.getString("correoElectronico");
+                    String fechaDeNacimiento = document.getString("fechaDeNacimiento");
+                    String nombre = document.getString("nombre");
+                    String primerApellido = document.getString("primerApellido");
+                    String segundoApellido = document.getString("segundoApellido");
+                    String carne = document.getString("carne");
+                    String cedula = document.getString("cedula");
 
-                        // Crear celdas y establecer los valores de texto
-                        addCellToRow(row, numeroCubiculo);
-                        addCellToRow(row, numeroCarne);
-                        addCellToRow(row, nombre);
-                        addCellToRow(row, primerApellido);
-                        addCellToRow(row, segundoApellido);
-                        addCellToRow(row, edad);
-                        addCellToRow(row, fechaNacimiento);
-                        addCellToRow(row, estado);
-                        addCellToRow(row, correoElectronico);
-                        addCellToRow(row, contrasenaInstitucional);
+                    Usuario usuario = new Usuario(correoElectronico, fechaDeNacimiento, nombre, primerApellido, segundoApellido, carne, cedula);
+                    listaUsuarios.add(usuario);
+                }
 
-                        // Agregar la fila al TableLayout
-                        tableLayout.addView(row);
-                    }
+                // Mostrar los datos de los usuarios en la tabla
+                for (Usuario usuario : listaUsuarios) {
+                    TableRow row = new TableRow(this);
+                    TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                    row.setLayoutParams(layoutParams);
+
+                    TextView correoTextView = new TextView(this);
+                    correoTextView.setText(usuario.getCorreoElectronico());
+                    row.addView(correoTextView);
+
+                    TextView nombreTextView = new TextView(this);
+                    nombreTextView.setText(usuario.getNombre());
+                    row.addView(nombreTextView);
+
+                    TextView apellidoTextView = new TextView(this);
+                    apellidoTextView.setText(usuario.getPrimerApellido() + " " + usuario.getSegundoApellido());
+                    row.addView(apellidoTextView);
+
+                    TextView carneTextView = new TextView(this);
+                    carneTextView.setText(usuario.getCarne());
+                    row.addView(carneTextView);
+
+                    TextView cedulaTextView = new TextView(this);
+                    cedulaTextView.setText(usuario.getCedula());
+                    row.addView(cedulaTextView);
+
+                    tableLayout.addView(row);
                 }
             } else {
-                // Error al obtener los datos de Firestore
-                Toast.makeText(Gestion_usuarios.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                Log.d("Gestion_usuarios", "Error getting documents: ", task.getException());
             }
         });
-
-        Button buttonRH = findViewById(R.id.button_revisar_historial);
-        Button buttonEU = findViewById(R.id.button_eliminar_usuario);
-        Button buttonVU = findViewById(R.id.button_volver_usuarios);
-
-        buttonRH.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Acción al hacer clic en "Revisar Historial"
-                Intent intent = new Intent(Gestion_usuarios.this, Historial_Reservas.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonEU.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Acción al hacer clic en "Eliminar Usuario"
-                // Agrega tu código aquí para eliminar un usuario
-            }
-        });
-
-        buttonVU.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Acción al hacer clic en "volver"
-                Intent intent = new Intent(Gestion_usuarios.this, menu_administradores.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void addCellToRow(TableRow row, String text) {
-        TextView cell = new TextView(Gestion_usuarios.this);
-        cell.setText(text);
-        row.addView(cell);
     }
 }
+
