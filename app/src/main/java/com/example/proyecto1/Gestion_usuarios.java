@@ -185,17 +185,8 @@ public class Gestion_usuarios extends AppCompatActivity {
         buttonRevisarHistorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!usuarioAdapter.getSelectedUserId().isEmpty()) {
-                    // Obtener el ID del usuario seleccionado
-                    String selectedUserId = usuarioAdapter.getSelectedUserId();
-
-                    // Pasar el ID del usuario a la actividad de revisar historial
-                    Intent intent = new Intent(Gestion_usuarios.this, Historial_Reservas.class);
-                    intent.putExtra("userId", selectedUserId);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(Gestion_usuarios.this, "Seleccione un usuario para revisar el historial", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(Gestion_usuarios.this, Historial_Reservas.class);
+                startActivity(intent);
             }
         });
     }
