@@ -15,10 +15,10 @@ public class Gestion_Tiempos extends AppCompatActivity {
         setContentView(R.layout.activity_gestion_tiempos);
 
         Button buttonBC = (Button) findViewById(R.id.button_bloquear_cubiculo);
-        Button buttonCE = (Button) findViewById(R.id.button_login);
-        Button buttonMR = (Button) findViewById(R.id.button_login);
-        Button buttonECGT = (Button) findViewById(R.id.button_login);
-        Button buttonVGT = (Button) findViewById(R.id.button_login);
+        Button buttonCE = (Button) findViewById(R.id.button_cambiar_estado);
+        Button buttonMR = (Button) findViewById(R.id.button_modificar_rango);
+        Button buttonECGT = (Button) findViewById(R.id.button_enviar_correo_tiempo);
+        Button buttonVGT = (Button) findViewById(R.id.button_volver_TC);
         buttonCE.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
