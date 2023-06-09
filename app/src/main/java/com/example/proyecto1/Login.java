@@ -79,12 +79,46 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
                                 // El administrador existe y las credenciales son correctas
+
+
                                 Intent adminIntent = new Intent(Login.this, menu_administradores.class);
                                 startActivity(adminIntent);
                             } else {
                                 // No es un administrador, redirigir al menú de usuarios
+                                buscarEnUsuarios(correoText, passText);
+                            }
+                        } else {
+                            // Error al consultar la colección "Admins"
+                            Toast.makeText(Login.this, "Error al buscar el usuario", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
+
+
+    private void buscarEnUsuarios(String correoText, String passText) {
+        db.collection("usuarios").whereEqualTo("CorreoElectronico", correoText)
+                .whereEqualTo("Contrasena", passText)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                // El usuario existe y las credenciales son correctas
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                String carneEstudiante = document.getString("carne");
+
+                                System.out.println("\n\n"+carneEstudiante+"\n\n");
+
                                 Intent usuarioIntent = new Intent(Login.this, menu_usuarios.class);
+
+                                usuarioIntent.putExtra("userID",carneEstudiante);
                                 startActivity(usuarioIntent);
+                            } else {
+
                             }
                         } else {
                             // Error al consultar la colección "Admins"

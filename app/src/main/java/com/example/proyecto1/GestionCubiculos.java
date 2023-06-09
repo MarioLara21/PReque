@@ -23,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GestionCubiculos2 extends AppCompatActivity {
+public class GestionCubiculos extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Obtener referencia a la colección en Firestore
@@ -33,17 +33,17 @@ public class GestionCubiculos2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gestion_cubiculos2);
+        setContentView(R.layout.gestion_cubiculos);
 
 
-        Button buttonAC = (Button) findViewById(R.id.button_agregar_cubiculo);
+        Button buttonAC = (Button) findViewById(R.id.button_enviarCorreoReserva);
         Button buttonEC = (Button) findViewById(R.id.button_eliminar_cubiculo);
-        Button buttonVGC = (Button) findViewById(R.id.button_volver_GC);
+        Button buttonVGC = (Button) findViewById(R.id.button_volver_Reservas);
         buttonEC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(GestionCubiculos2.this,MainActivity.class);
+                Intent i = new Intent(GestionCubiculos.this,MainActivity.class);
                 startActivity(i);
             }
         });
@@ -52,7 +52,7 @@ public class GestionCubiculos2 extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(GestionCubiculos2.this,menu_administradores.class);
+                Intent i = new Intent(GestionCubiculos.this,menu_administradores.class);
                 startActivity(i);
             }
         });
@@ -60,7 +60,7 @@ public class GestionCubiculos2 extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(GestionCubiculos2.this,agregarCubibulo.class);
+                Intent i = new Intent(GestionCubiculos.this,agregarCubibulo.class);
                 startActivity(i);
             }
         });
@@ -85,7 +85,7 @@ public class GestionCubiculos2 extends AppCompatActivity {
                         listaCubiculos.add(cubiculo);
                     }
                     // Obtener referencia al RecyclerView desde el layout
-                    RecyclerView recyclerView = findViewById(R.id.ListaCubiculos);
+                    RecyclerView recyclerView = findViewById(R.id.ListaReservas);
 
                     // Configurar el adaptador
                     CubiculoAdapterAdmin adapter = new CubiculoAdapterAdmin(listaCubiculos);
@@ -95,7 +95,7 @@ public class GestionCubiculos2 extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     // Configurar el administrador de diseño (puedes usar LinearLayoutManager u otros)
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(GestionCubiculos2.this);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(GestionCubiculos.this);
                     recyclerView.setLayoutManager(layoutManager);
 
                     // Asignar el adaptador al RecyclerView

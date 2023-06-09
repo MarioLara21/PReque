@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class agregarCubibulo extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(agregarCubibulo.this,GestionCubiculos2.class);
+                Intent i = new Intent(agregarCubibulo.this, GestionCubiculos.class);
                 startActivity(i);
             }
         });

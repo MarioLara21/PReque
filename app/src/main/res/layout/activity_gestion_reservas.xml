@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GestionCubiculos2">
+    tools:context=".GestionCubiculos">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ListaCubiculos"
-        android:layout_width="397dp"
-        android:layout_height="364dp"
+        android:id="@+id/ListaReservas"
+        android:layout_width="410dp"
+        android:layout_height="465dp"
         android:layout_marginTop="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_agregar_cubiculo"
+        app:layout_constraintBottom_toTopOf="@+id/button_enviarCorreoReserva"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,32 +19,31 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button_agregar_cubiculo"
+        android:id="@+id/button_enviarCorreoReserva"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:text="Agregar Cubículo"
+        android:layout_marginStart="88dp"
+        android:text="Enviar Correo Reserva"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.749" />
+        app:layout_constraintVertical_bias="0.792" />
 
     <Button
         android:id="@+id/button_eliminar_cubiculo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar Cubículo"
+        android:text="Enviar Correo General"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.856" />
+        app:layout_constraintVertical_bias="0.881" />
 
     <Button
-        android:id="@+id/button_volver_GC"
+        android:id="@+id/button_volver_Reservas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Volver"

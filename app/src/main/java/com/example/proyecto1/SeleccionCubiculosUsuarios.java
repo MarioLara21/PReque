@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -39,7 +38,9 @@ public class SeleccionCubiculosUsuarios extends AppCompatActivity {
         Intent intent = getIntent();
 
         // Obtener el valor pasado a través de putExtra()
-        String carneUsuario= intent.getStringExtra("usuarioId");
+        String userID= intent.getStringExtra("userID");
+
+        System.out.println("\n\n"+userID+"\n\n");
 
         cubiculosCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -61,13 +62,13 @@ public class SeleccionCubiculosUsuarios extends AppCompatActivity {
                         listaCubiculos.add(cubiculo);
                     }
                     // Obtener referencia al RecyclerView desde el layout
-                    RecyclerView recyclerView = findViewById(R.id.ListaCubiculos);
+                    RecyclerView recyclerView = findViewById(R.id.ListaReservas);
 
                     // Configurar el adaptador
                     CubiculoAdapterUsuarios adapter = new CubiculoAdapterUsuarios();
 
                     adapter.setListaCubiculos(listaCubiculos);
-                    adapter.setUsuarioReserva(String.valueOf(carneUsuario));
+                    adapter.setUsuarioReserva(String.valueOf(userID));
 
                     adapter.notifyDataSetChanged();
 

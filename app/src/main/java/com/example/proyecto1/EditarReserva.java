@@ -1,5 +1,19 @@
 package com.example.proyecto1;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Calendar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +37,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,38 +47,35 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class RealizarReserva extends AppCompatActivity {
+public class EditarReserva extends AppCompatActivity {
 
     private Button btnOpenDatePicker;
     private Button btnOpenTimePicker1;
     private Button btnOpenTimePicker2;
     private Calendar calendar;
 
-    private Button volverASeleccionUsuarios;
+    private Button volverAGestionReservas;
 
     private TextView cubiculoTexto;
 
-    private String selectedDate;
-    private String selectedTime;
-    private String selectedTime2;
+    private String selectedDate_edicion;
+    private String selectedTime_edicion;
+    private String selectedTime2_edicion;
 
-    private Button btnRealizarReservacion;
+    private Button btnEditarReservacion;
+    private Button btnEliminarReserva;
 
-    private int valorExtra;
-    private  String valorExtraUsuario;
+    private String UsuarioID;
 
-
+    private String valorExtra;
     private CountDownTimer timer;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     CollectionReference reservasRef = db.collection("Reserva");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.realizar_reserva);
+        setContentView(R.layout.activity_editar_reserva);
 
         timer = new CountDownTimer(2000, 1000) {
             @Override
@@ -75,37 +88,28 @@ public class RealizarReserva extends AppCompatActivity {
 
             }
         };
-        cubiculoTexto= findViewById(R.id.numeroCubiculoSeleccionado);
-
-        btnOpenDatePicker = findViewById(R.id.seleccionFecha);
-        btnOpenTimePicker1 = findViewById(R.id.seleccionHora);
-        btnOpenTimePicker2 = findViewById(R.id.seleccionHora2);
+        btnOpenDatePicker = findViewById(R.id.seleccionFecha_edicion);
+        btnOpenTimePicker1 = findViewById(R.id.seleccionHora1_Edicion);
+        btnOpenTimePicker2 = findViewById(R.id.seleccionHora2_edicion);
         calendar = Calendar.getInstance();
-        volverASeleccionUsuarios= findViewById(R.id.btn_VolveraSeleccionUsuarios);
+        volverAGestionReservas= findViewById(R.id.btn_VolverGestionReservas);
 
-        btnRealizarReservacion= findViewById(R.id.btn_RealizarReservaCubiculo);
+        btnEditarReservacion= findViewById(R.id.modificar_Reserva);
+        btnEliminarReserva= findViewById(R.id.eliminar_reserva);
 
 
         // Obtener el Intent que inició esta actividad
         Intent intent = getIntent();
 
         // Obtener el valor pasado a través de putExtra()
-        valorExtra= intent.getIntExtra("cubiculo",0);
-
-        valorExtraUsuario=String.valueOf(intent.getStringExtra("idUser"));
-
-        System.out.println("\n\n"+valorExtraUsuario+"\n\n");
-
-        cubiculoTexto.setText(String.valueOf(valorExtra));
+        valorExtra= intent.getStringExtra("carne");
 
 
-
-
-        volverASeleccionUsuarios.setOnClickListener(new View.OnClickListener() {
+        volverAGestionReservas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(RealizarReserva.this,MainActivity.class);
+                Intent i = new Intent(EditarReserva.this,Gestion_Reservas.class);
                 startActivity(i);
             }
 
@@ -134,17 +138,21 @@ public class RealizarReserva extends AppCompatActivity {
 
 
 
-        btnRealizarReservacion.setOnClickListener(new View.OnClickListener() {
+        btnEditarReservacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReservacionCubiculo(valorExtra,valorExtraUsuario);
+                EdicionReserva(valorExtra);
+            }
+        });
+
+        btnEliminarReserva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BorrarReserva(valorExtra);
             }
         });
 
     }
-
-
-
 
 
     private void openDatePickerDialog() {
@@ -158,8 +166,8 @@ public class RealizarReserva extends AppCompatActivity {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-                        selectedDate = dateFormat.format(calendar.getTime());
-                        Log.d("DatePicker", "Fecha seleccionada: " + selectedDate);
+                        selectedDate_edicion = dateFormat.format(calendar.getTime());
+                        Log.d("DatePicker", "Fecha seleccionada: " + selectedDate_edicion);
                     }
                 },
                 calendar.get(Calendar.YEAR),
@@ -184,8 +192,8 @@ public class RealizarReserva extends AppCompatActivity {
 
                         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss 'UTC-6'", Locale.getDefault());
                         timeFormat.setTimeZone(TimeZone.getTimeZone("GMT-6")); // Configura la zona horaria deseada
-                        selectedTime = timeFormat.format(calendar.getTime());
-                        Log.d("TimePicker1", "Hora seleccionada: " + selectedTime);
+                        selectedTime_edicion = timeFormat.format(calendar.getTime());
+                        Log.d("TimePicker1", "Hora seleccionada: " + selectedTime_edicion);
                     }
                 },
                 hour,
@@ -210,8 +218,8 @@ public class RealizarReserva extends AppCompatActivity {
 
                         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss 'UTC-6'", Locale.getDefault());
                         timeFormat.setTimeZone(TimeZone.getTimeZone("GMT-6")); // Configura la zona horaria deseada
-                        selectedTime2 = timeFormat.format(calendar.getTime());
-                        Log.d("TimePicker2", "Hora seleccionada: " + selectedTime2);
+                        selectedTime2_edicion = timeFormat.format(calendar.getTime());
+                        Log.d("TimePicker2", "Hora seleccionada: " + selectedTime2_edicion);
                     }
                 },
                 hour,
@@ -224,43 +232,52 @@ public class RealizarReserva extends AppCompatActivity {
 
 
 
-    private void ReservacionCubiculo(int valorExtra, String valorExtraUsuario){
+    private void EdicionReserva(String valorExtra1){
 
 
 
-        Map<String, Object> nuevoDocumento = new HashMap<>();
-        nuevoDocumento.put("HoraFin", selectedDate+","+selectedTime);
-        nuevoDocumento.put("HoraInicio", selectedDate+","+selectedTime2);
-        nuevoDocumento.put("NumeroCubiculo", valorExtra);
-        nuevoDocumento.put("Usuario", valorExtraUsuario);
-        String NombreReserva=valorExtraUsuario+"-Reserva";
 
-        DocumentReference nuevoDocumentoRef = reservasRef.document(NombreReserva);
+        String horaIni= selectedDate_edicion+","+selectedTime_edicion;
+        String horaFin =selectedDate_edicion+","+selectedTime2_edicion;
 
-        nuevoDocumentoRef.set(nuevoDocumento)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Se agregó con exito", Toast.LENGTH_SHORT).show();
 
-                        timer.start();
+        db.collection("Reserva")
+                .whereEqualTo("Usuario", valorExtra1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Accede al documento y actualiza el valor del campo
+                            document.getReference().update("HoraInicio", horaIni);
+                            document.getReference().update("HoraFin", horaFin);
 
-                        timer.cancel();
-
-                        Intent i = new Intent(RealizarReserva.this,MainActivity.class);
-                        startActivity(i);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditarReserva.this, "Reserva Actualizada", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(EditarReserva.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
 
+    public void BorrarReserva(String valorExtra2){
+        CollectionReference collectionRef;
+        collectionRef= db.collection("Reserva");
+        collectionRef.whereEqualTo("Usuario", valorExtra2).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Accede al documento y elimínalo
+                                document.getReference().delete();
+                            }
+                            Toast.makeText(EditarReserva.this, "Documento(s) eliminado(s)", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(EditarReserva.this, "Error al eliminar el documento", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 }
-
-
-

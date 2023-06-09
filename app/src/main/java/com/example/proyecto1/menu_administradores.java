@@ -30,7 +30,7 @@ public class menu_administradores extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(menu_administradores.this,GestionCubiculos2.class);
+                Intent i = new Intent(menu_administradores.this, GestionCubiculos.class);
                 startActivity(i);
             }
         });
@@ -57,7 +57,7 @@ public class menu_administradores extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Intent i = new Intent(menu_administradores.this,Gestion_Asignacion.class);
+                Intent i = new Intent(menu_administradores.this, Gestion_Reservas.class);
                 startActivity(i);
             }
         });
